@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1598151827 source:d:\- projetos c\minhatriefim\trie.c
+
+1598151224 source:d:\- projetos c\minhatriefim\main.cpp
+	<iostream>
+	"trie.c"
+
+1598151827 d:\- projetos c\minhatriefim\trie.c
+

@@ -1,1 +1,1 @@
-Compressed Sufix Tree - Patricia Trie
+Compressed Suffix Tree - Patricia Trie

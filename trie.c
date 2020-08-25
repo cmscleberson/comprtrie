@@ -5,7 +5,7 @@
 #include <string.h>
 
 
-#define TAM 60
+#define TAM 70
 
 
 
@@ -14,8 +14,8 @@ typedef struct No
 
     char *valor[TAM];
     struct No* filho[TAM];
-
-    int ehFinal;
+	int indComp;
+	int ehFinal;
 
 
 } No;
@@ -25,69 +25,58 @@ No* criaNo()
 {
 
     No* novo = (No*) malloc(sizeof(No));
-    novo ->ehFinal = 0;
+    novo ->ehFinal = 1;
+	novo->indComp =0;
 
     int i;
     for(i=0; i<TAM; i++)
     {
         novo->filho[i] = NULL;
+        novo->valor[i] = NULL;
     }
 
     return novo;
 
 }
 
-void inserirNo(No* raiz, char val[], int tamP)
+void inserirNo(No* raiz, char *val[],  int tamP)
 {
 
     No* atual = raiz;
-	No* ultimo = (No*) malloc(sizeof(No));
-    int i,j, index; 
-	int indParada = -1;
-	printf("\nPalavra a inserir: %s\n", val);
 
-    for(i=0; i<tamP; i++)
-    {
-        index = val[i]-'A';
-		if(atual->filho[index] != NULL)
-		{
-			atual->ehFinal = 0;
-			ultimo = atual;
-			atual = atual->filho[index];
-			printf("\n Já tem a letra :: %c", val[i]);		
-		}
-		else
-		{
-			indParada = i;
-			break;
-		}
-	}
-	
-	printf("\nIndice de parada da palavrs:\n%d", indParada);
-	
-	
-	if(indParada<tamP-1)
+	int j;
+	int indParada = 0;
+
+
+	for(j=0; j<tamP; j++)
 	{
-		char palavr[tamP-indParada];
-		//palavr='';
-		for(j=indParada; j<tamP; j++)
-		{
-			palavr = palavr+val[j];
-		}
-		
-			int ini;
-			ini = val[indParada]-'A';
-	
-			No* novo = criaNo();
-			*novo->valor = palavr;
-			atual->filho[ini] = novo;
-			printf("Inserido::: %s", palavra);
-	}		
-	
-	
-	
-	
+	    printf("\nValor que estah na raiz: %s", *atual->valor);
+
+	    if(*atual->valor == NULL)
+        {
+            No* novo = criaNo();
+            atual->filho[*val[0]-'A'] = novo;
+			*atual->valor = *val;
+			printf("\nInsserindo :::%s", val[0]);
+			break;
+
+        }
+        else
+        {
+            printf("\nValor que esta na posicao J do No%d", atual->valor[0][j]-'A');
+            int valorNo = atual->valor[0][j]-'A';
+            int indexPalavra = val[0][j]-'A';
+            printf("\nLetra procurada :::%d", indexPalavra);
 
 
+            if(indexPalavra == valorNo)
+            {
+                //atual->indComp = j+1;
+                printf("\nJá existe a letra de numero :::%d", indexPalavra);
+            }
+            else break;
+        }
+    }
 }
+
 

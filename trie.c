@@ -44,7 +44,7 @@ void inserirNo(No* raiz, char val[], int tamP)
 	No* ultimo = (No*) malloc(sizeof(No));
     int i,j, index; 
 	int indParada = -1;
-	printf("\Palavra a inserir: %s\n", val);
+	printf("\nPalavra a inserir: %s\n", val);
 
     for(i=0; i<tamP; i++)
     {
@@ -63,7 +63,7 @@ void inserirNo(No* raiz, char val[], int tamP)
 		}
 	}
 	
-	printf("\Indice de parada da palavrs:\n%d", indParada);
+	printf("\nIndice de parada da palavrs:\n%d", indParada);
 	
 	
 	if(indParada<tamP-1)

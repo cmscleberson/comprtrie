@@ -1,18 +1,16 @@
 
-
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
 
 
-#define TAM 70
+#define TAM 26
 
 
 
 typedef struct No
 {
 
-    char *valor[TAM];
+    char *valor;
     struct No* filho[TAM];
 	int indComp;
 	int ehFinal;
@@ -21,62 +19,76 @@ typedef struct No
 } No;
 
 
+
 No* criaNo()
 {
 
     No* novo = (No*) malloc(sizeof(No));
-    novo ->ehFinal = 1;
-	novo->indComp =0;
+    novo ->ehFinal = 0;
+
 
     int i;
     for(i=0; i<TAM; i++)
     {
         novo->filho[i] = NULL;
-        novo->valor[i] = NULL;
     }
 
     return novo;
-
 }
 
-void inserirNo(No* raiz, char *val[],  int tamP)
+
+
+
+void insereNo(No* raiz, char *palavra)
 {
-
     No* atual = raiz;
+    int cont = 0;
+    int indIniResto = 0;
+    int j =0;
+    char *temp = palavra;
+    char temp2[TAM];
+    char *temp3 = palavra;
+    char palavIns;
 
-	int j;
-	int indParada = 0;
-
-
-	for(j=0; j<tamP; j++)
-	{
-	    printf("\nValor que estah na raiz: %s", *atual->valor);
-
-	    if(*atual->valor == NULL)
-        {
-            No* novo = criaNo();
-            atual->filho[*val[0]-'A'] = novo;
-			*atual->valor = *val;
-			printf("\nInsserindo :::%s", val[0]);
-			break;
-
-        }
-        else
-        {
-            printf("\nValor que esta na posicao J do No%d", atual->valor[0][j]-'A');
-            int valorNo = atual->valor[0][j]-'A';
-            int indexPalavra = val[0][j]-'A';
-            printf("\nLetra procurada :::%d", indexPalavra);
-
-
-            if(indexPalavra == valorNo)
-            {
-                //atual->indComp = j+1;
-                printf("\nJá existe a letra de numero :::%d", indexPalavra);
-            }
-            else break;
-        }
+    while(*temp)
+    {
+       cont++;
+       temp++;
     }
-}
+
+
+
+    while(*palavra)
+    {
+        int index = *palavra-'a';
+
+        if(atual->filho[index] == NULL)
+        {
+            int k;
+            char teste = (char) index;
+
+            atual->filho[index] = criaNo();
+
+
+            for(k = indIniResto; k<cont; k++)
+            {
+                temp2[j] = palavra[k];
+
+                j++;
+            }
+                atual->valor = temp3;
+                break;
+            }
+
+
+        atual = atual->filho[index];
+        palavra++;
+        indIniResto++;
+
+    }
+    atual->ehFinal =1;
+        printf("\nEh o noh final::: %d", atual->ehFinal);
+
+   }
 
 

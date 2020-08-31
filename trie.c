@@ -1,94 +1,117 @@
-
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 
-#define TAM 26
+#define TAM 70
 
 
 
 typedef struct No
 {
 
-    char *valor;
     struct No* filho[TAM];
-	int indComp;
+    struct No* interno[TAM];
+
 	int ehFinal;
 
 
 } No;
 
 
-
 No* criaNo()
 {
-
-    No* novo = (No*) malloc(sizeof(No));
-    novo ->ehFinal = 0;
-
+    No* no = (No*) malloc (sizeof(No));
 
     int i;
     for(i=0; i<TAM; i++)
     {
-        novo->filho[i] = NULL;
+        no->filho[i] = NULL;
     }
 
-    return novo;
+    return no;
+
+}
+
+
+void insereNoInterno(No* raiz, char* valor, int ini, int fim)
+{
+    No* atual = raiz;
+
+    int index = valor[ini]-'a';
+    atual->interno[index] = criaNo();
+    *atual->interno = atual->interno[index];
+    printf("\nNoh interno adicionado:::%d", index);
 }
 
 
 
 
-void insereNo(No* raiz, char *palavra)
+void insereNoFilho(No* raiz, char *valor)
 {
+    int tam =0;
+    char *valorCont = valor;
+
+    while(*valorCont)
+    {
+        tam++;
+        valorCont++;
+    }
+
+    char *valorTemp = valor;
+    char *valorNoInterno = valor;
+
+
+    int cont=0;
+    int index;
+
     No* atual = raiz;
-    int cont = 0;
-    int indIniResto = 0;
-    int j =0;
-    char *temp = palavra;
-    char temp2[TAM];
-    char *temp3 = palavra;
-    char palavIns;
+    No* temp=NULL;
+    printf("\n\nTamanho::%d\n", tam);
 
-    while(*temp)
+    while(*valorTemp)
     {
-       cont++;
-       temp++;
-    }
 
+        index = *valorTemp-'a';
 
-
-    while(*palavra)
-    {
-        int index = *palavra-'a';
-
-        if(atual->filho[index] == NULL)
+        if(atual->filho[index] != NULL)
         {
-            int k;
-            char teste = (char) index;
 
+            temp = atual;
+            cont++;
+
+            printf("\n:::: Letra jah inserida:::\n%d", index);
+        }
+        else
+        {
             atual->filho[index] = criaNo();
+            cont++;
+            break;
 
-
-            for(k = indIniResto; k<cont; k++)
-            {
-                temp2[j] = palavra[k];
-
-                j++;
-            }
-                atual->valor = temp3;
-                break;
-            }
-
-
+        }
         atual = atual->filho[index];
-        palavra++;
-        indIniResto++;
+
+        valorTemp++;
 
     }
-    atual->ehFinal =1;
-        printf("\nEh o noh final::: %d", atual->ehFinal);
 
-   }
-
+    if(cont != tam )
+    {
+        //verificar se tem nós internos
+        if(temp != NULL)
+        {
+            //verificar se tem nós internos
+            printf("\nNó temporário:::%d", index);
+        }
+        else
+        {
+            //insere o noh filho e os nós internos
+            int j;
+            for(j=cont; j<tam; j++)
+            {
+                insereNoInterno(atual, valorNoInterno, j, tam);
+            }
+        }
+    }
+}
 

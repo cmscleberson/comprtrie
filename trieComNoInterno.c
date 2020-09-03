@@ -103,7 +103,7 @@ char sufNo[TAM];
 char sufPalav[TAM];
 
 
-//identifica as partes iguais entre o valor do nó e o valor a ser inserido (prefixos iguais)
+//identifica as partes iguais entre o valor do nÃ³ e o valor a ser inserido (prefixos iguais)
 for(i=0; i<corte; i++)
 {
     if(temp->valor[i] != NULL)
@@ -121,7 +121,7 @@ for(i=0; i<corte; i++)
 
 
 int t=0;
-//extrai as partes diferentes (sufixos) entre o valor do nó e o valor a ser inserido
+//extrai as partes diferentes (sufixos) entre o valor do nÃ³ e o valor a ser inserido
 for(i=corte; i<TAM; i++)
 {
     if(temp->valor[i] != NULL)
@@ -145,7 +145,7 @@ for(i=corte; i<TAM; i++)
 
 temp->ehFinal = 0;
 
-//cria um novo nó, com a chave sendo o primeiro caracter de igualdade, e dois nós com os valores diferentes
+//cria um novo nÃ³, com a chave sendo o primeiro caracter de igualdade, e dois nÃ³s com os valores diferentes
 int idxA = sufNo[0]-'a';
 int idxB = sufPalav[0]-'a';
 int tamVetSufA = sizeof(sufNo)/sizeof(sufNo[0]);
@@ -160,7 +160,7 @@ temp->filho[idxAtual]->filho[idxB] = criaNo();
 
 
 
-//atribui novo valor ao nó, retirando os sufixos
+//atribui novo valor ao nÃ³, retirando os sufixos
 int tamVetIgual = sizeof(iguald)/sizeof(iguald[0]);
 int p=0;
 for(i=1; i<=tamVetIgual; i++)
@@ -254,7 +254,7 @@ void insereNoFilho(No* raiz, char *valor)
     }
 
 
-    //se for palavra repetida, a execução termina cont=tam
+    //se for palavra repetida, a execuÃ§Ã£o termina cont=tam
     if(cont != tam )
     {
 
@@ -263,7 +263,7 @@ void insereNoFilho(No* raiz, char *valor)
         if(temp != NULL)
         {
             if(temp->valor == NULL)
-            {   //O noh não possui valor alem da chave, inserir a chave e o valor
+            {   //O noh nÃ£o possui valor alem da chave, inserir a chave e o valor
 
             atual->filho[index] = criaNo();
 
@@ -285,9 +285,9 @@ void insereNoFilho(No* raiz, char *valor)
             }
             else
             {
-                //Nó com chave e valor associado, dividir o nó entre o novo valor e o valor do nó (compressão)
-                printf("\nO noh possui  um valor alem da chave. Fazer a compressão");
-                printf("\nPalavras para compressão:::%s--%s", temp->valor ,valorTemp);
+                //NÃ³ com chave e valor associado, dividir o nÃ³ entre o novo valor e o valor do nÃ³ (compressÃ£o)
+                printf("\nO noh possui  um valor alem da chave. Fazer a compressÃ£o");
+                printf("\nPalavras para compressÃ£o:::%s--%s", temp->valor ,valorTemp);
                 printf("\nUltimo index:::%d", index);
                 comprime(temp, valorTemp, indexUlt);
                 atual = temp;
@@ -297,7 +297,7 @@ void insereNoFilho(No* raiz, char *valor)
         }
         else
         {
-            //Não existe palavra com a inicial informada. Insere o noh filho e o valor
+            //NÃ£o existe palavra com a inicial informada. Insere o noh filho e o valor
             atual->filho[index] = criaNo();
 
             cont++;

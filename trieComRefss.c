@@ -109,7 +109,7 @@ void insereNo(No* raiz, char *valor, int idx)
 			atual->filho[index]->ehFinal = 1;
 
             atual = atual->filho[index];
-			printf("\Primeira chave criada com a inicial\n");
+			printf("\nPrimeira chave criada com a inicial\n");
 
 
 		}

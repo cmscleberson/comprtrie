@@ -1,16 +1,23 @@
-
 #include <stdlib.h>
 #include <stdio.h>
 
 
 #define TAM 26
+#define LIN_MAT 5000
+#define COL_MAT 26
+
+char matrizPalav [LIN_MAT][COL_MAT];
+char matrizResult [LIN_MAT][COL_MAT];
+int contOcorr[LIN_MAT];
+
+
 
 
 typedef struct No
 {
-    int *idxWord;
-    int *iniWord;
-    int *fimWord;
+    int idxWord;
+    int iniWord;
+    int fimWord;
     int tam;
 
     struct No* filho[TAM];
@@ -50,13 +57,96 @@ No* criaNo(char *valor)
 
 
 
-char* retValor(int idx)
+
+int retornaIndVazioRes()
+{
+	int i=0, j;
+	for(i=0; i<LIN_MAT; i++)
+	{
+		
+		if(matrizResult[i][0] == NULL)
+			break;
+	}
+	return i;
+}
+
+
+void insereMatrizRes(char* value)
+{
+	int idx = retornaIndVazioRes();
+	int i;
+	char* vl = value;
+	int tam = 0;
+	
+	while(*vl)
+	{
+		tam++;
+		vl++;
+	}
+	
+	for(i=0; i<tam;i++)
+	{
+		matrizResult[idx][i] = *value;
+		value++;
+
+	}
+}
+
+
+
+
+
+
+
+
+
+char* retValorNo(int idx)
 {
 
-char* teste = "bear";
-return teste;
-
+char *valor = matrizPalav[idx];
+return valor;
 }
+
+
+
+
+
+
+int retornaIndVazioP()
+{
+	int i=0, j;
+	for(i=0; i<LIN_MAT; i++)
+	{
+		
+		if(matrizPalav[i][0] == NULL)
+			break;
+	}
+	return i;
+}
+
+
+void insereMatrizP(char* value)
+{
+	int idx = retornaIndVazioP();
+	int i;
+	char* vl = value;
+	int tam = 0;
+	
+	while(*vl)
+	{
+		tam++;
+		vl++;
+	}
+	
+	for(i=0; i<tam;i++)
+	{
+		matrizPalav[idx][i] = *value;
+		value++;
+
+	}
+}
+
+
 
 
 void insereNo(No* raiz, char *valor, int idx)
@@ -71,7 +161,6 @@ void insereNo(No* raiz, char *valor, int idx)
     int indexUlt;
 
     No* atual = raiz;
-	printf("\nTeste Raiz%d", atual->idxWord);
 
 
     while(*valorTemp)
@@ -80,100 +169,128 @@ void insereNo(No* raiz, char *valor, int idx)
 
         if(atual->filho[index] != NULL)
         {
-            atual->ehFinal = 0;
             cont++;
-            printf("\n:::: Letra jah inserida:::%d\n", index);
         }
         else
         {
             break;
         }
+			printf("\nTeste Indice da Palavra:::::%d", atual->idxWord);
 
         atual = atual->filho[index];
         valorTemp++;
 
     }
 
-    //se true eh pq a palavra já existe inteira na trie, nada eh adicionado
+    //se falso eh pq a palavra já existe inteira na trie, nada eh adicionado
     if(cont != tam)
     {
 
-        //primeira chave
-
-		if(atual->fimWord == NULL)
-		{
 			atual->filho[index] = criaNo(valor);
-            atual->filho[index]->iniWord = &cont;
-            atual->filho[index]->idxWord = &idx;
-            atual->filho[index]->fimWord = &tam;
+            atual->filho[index]->iniWord = cont;
+            atual->filho[index]->idxWord = idx;
+            atual->filho[index]->fimWord = tam;
 			atual->filho[index]->ehFinal = 1;
-
             atual = atual->filho[index];
-			printf("\nPrimeira chave criada com a inicial\n");
-
-
-		}
-		else
-		{
-			//chave já existe. verificar o segundo digito para atualizar valores ou criar novo Noh
-		    int indexBusca = *atual->idxWord;
-			int contIg = 0;
-		    char *vlBuscado = retValor(indexBusca);
-		    char *vlParaIns = valor;
-			
-			while(*vlBuscado)
-			{
-				char a = *vlParaIns;
-				char b = *vlBuscado;
-				if(a==b)
-				{
-					contIg++;
-				}
-				else
-				{
-					break;
-				}
-
-				vlBuscado++;
-				vlParaIns++;
-				
-			}
-			
-			//primeira e segunda letra já existem, atualizar valores do noh
-			if(contIg>1)
-			{
-				//move ponteiros para inserir novos valores
-				atual->iniWord++;
-				atual->idxWord++;
-				atual->fimWord++;
-				
-				atual->iniWord = &cont;
-				atual->idxWord = &idx;
-				atual->fimWord = &tam;
-				printf("\nprimeira e segunda letra já existem, att valores do noh\n");
-			}
-			
-			//a segunda letra não eh igual ao valor do Noh, criar um novo
-			else
-			{
-				atual->filho[index] = criaNo(valor);
-				atual->filho[index]->iniWord = &cont;
-				atual->filho[index]->idxWord = &idx;
-				atual->filho[index]->fimWord = &tam;
-				atual->filho[index]->ehFinal = 1;
-
-				atual = atual->filho[index];
-				printf("\na segunda letra não eh igual ao valor do Noh, criar um novo\n");
-				
-			}
-
-		}
-
-            }
-
+	}
 }
 
 
+
+
+
+int util(No* root, int count, char* st, int pos) {
+        
+		No* atual = root;
+		char* stt = st;
+		int tam;
+		while(*stt)
+		{
+			tam++;
+			stt++;
+		}
+	
+        if(count > 1 && pos == tam)
+            return 1;
+			
+        for(int i = pos; i < tam; i++) 
+		{
+            int index = st[i] - 'a';
+            if(!atual->filho[index])
+                return 0;
+            if(atual->filho[index]->ehFinal == 1 && util(atual, count + 1, st, i + 1))
+                return 1;
+            atual = atual->filho[index];
+        }
+        return 0;
+}
+
+
+
+void processa(No* root) 
+{		
+	    No* atual = root;
+		int i;
+        for(i=0; i<LIN_MAT; i++)
+		{
+			char *palavra = matrizPalav[i];
+			insereNo(root, palavra, i);
+
+		}
+
+		int index = atual->idxWord;
+		char* valorNo = matrizPalav[index];
+		insereMatrizRes(valorNo);
+		
+		
+        for(i=0; i<LIN_MAT; i++)
+		{
+			char *palavra = matrizPalav[i];
+            if(util(atual, 0, palavra, 0)==1)
+			{
+				insereMatrizRes(palavra);
+			}
+        }
+}
+
+
+int buscaNo(No* raiz, char* prefix)
+{
+	No* atual = raiz;
+	char* pref = prefix;
+	char* prefA = prefix;
+	int tamPrefix = 0;
+	
+	while(*prefA)
+	{
+		tamPrefix++;
+		prefA++;
+	}
+
+	int contP = 0;
+	
+	while(*pref)
+	{
+		int index = *pref-'a';
+		
+		if(atual->filho[index] != NULL)
+		{
+			atual = atual->filho[index];
+			contP++;
+		}
+		else break;
+
+		pref++;
+	}
+	
+	if(contP == 0)
+	{
+		return 0;
+	}
+	
+	processa(atual);
+	
+}
 
 
 
